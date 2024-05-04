@@ -225,7 +225,19 @@ The worst case for \textit{SUM} would be, if $C_1$ and $C_3$ would be very low a
 
 
 \section*{Exercise \printsheet.3}
+\subsection*{(a)}
+\begin{proposition} A is $c$-competitive, i.e. $\sum_{i=1}^n c_A(i) \leq c \cdot \sum_{i=1}^n c_{OPT}(i)$. \end{proposition}
+\begin{proof}
+\begin{align*}
+\sum_{i=1}^n c_A(i) & \leq \sum_{i=1}^n c_A(i) + \sum_{i=1}^n \Phi_r(i) - \Phi_r(i-1) \mid \text{ since } \Phi_r \text{ can't be negative} \\
+& = \sum_{i=1}^n c_A(i) + \Phi_r(i) - \Phi_r(i-1) \\
+& \leq \sum_{i=1}^n c \cdot c_{OPT}(i) \\
+& = c \cdot \sum_{i=1}^n c_{OPT} (i)
+\end{align*}
+\end{proof}
 
+
+\subsection*{(b)}
 
 
 
