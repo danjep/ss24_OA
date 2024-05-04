@@ -1,0 +1,236 @@
+\documentclass[a4paper,12pt]{scrartcl}
+\usepackage[singlespacing]{setspace}
+
+% Layout
+\usepackage[a4paper, left=2.5cm, right=2cm, top=1cm, bottom=3cm]{geometry} % kleinere Ränder
+\usepackage{parskip}
+
+% Umlaute in der Datei erlauben, auf Deutsch umstellen
+\usepackage{fontspec}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+
+% Mathesymbole und Ähnliches
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{stmaryrd}
+\usepackage{MnSymbol}
+\usepackage{bussproofs}		% Sequenzenkalkül
+\usepackage{xcolor}
+
+% Grafiken und PDFs einfügen
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{float}
+
+% PDF-Tools
+\usepackage[hidelinks, unicode]{hyperref}
+
+% Abbildungen
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc,positioning}
+\tikzset{ 
+   state/.style={circle,fill,inner sep=2pt,label=below:#1\strut},
+   arrow/.style={->, shorten <=3pt, shorten >=3pt, >=stealth',thick},
+   knoten/.style={draw, circle, minimum size=8mm}} 
+   
+% Infoboxen 
+\definecolor{orange}{RGB}{230,159,0}
+\definecolor{darkgray}{RGB}{70,90,70}
+
+\usepackage{tcolorbox}
+
+\newenvironment{LP}[1]{%
+\begin{minipage}{0.48\textwidth}
+\begin{tcolorbox}[colback=orange!20!white, colframe=orange!80!black, title={\sffamily \textbf{#1}}]
+}{
+\end{tcolorbox}
+\end{minipage}}
+
+\newenvironment{alg}[1]{%
+\begin{tcolorbox}[colback=red!15!white, colframe=red!85!black, title={\sffamily \textbf{#1}}]
+}{
+\end{tcolorbox}}
+
+\newenvironment{info}[1]{%
+\begin{tcolorbox}[colback=darkgray!15!white, colframe=darkgray!75!black, title={\sffamily \textbf{#1}}]
+}{
+\end{tcolorbox}}
+
+\newcommand{\ein}{\textbf{Eingabe: }}
+\newcommand{\reg}{\textbf{Bedingungen:}}
+\newcommand{\aus}{\textbf{Ziel: }}
+
+% Reelle, Natürliche, Ganze, Rationale Zahlen
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+
+% Fraktur für Strukturen
+\newcommand{\A}{\ensuremath{\mathfrak A}}
+\newcommand{\B}{\ensuremath{\mathfrak B}}
+\newcommand{\I}{\ensuremath{\mathfrak I}}
+
+% Körper
+\newcommand{\K}{\ensuremath{\mathcal{K}}}
+%\newcommand{\G}{\ensuremath{\mathcal{G}}}
+
+% Makros für logische Operatoren
+\newcommand{\xor}{\ensuremath{\oplus}} % exklusives oder
+\newcommand{\impl}{\ensuremath{\rightarrow}} % logische Implikation
+\newcommand{\Lor}{\ensuremath{\bigvee}}
+\newcommand{\Land}{\ensuremath{\bigwedge}}
+
+% Meistens ist \varphi schöner als \phi, genauso bei \theta
+\renewcommand{\phi}{\varphi}
+\renewcommand{\theta}{\vartheta}
+
+\newcommand*{\todo}{\textbf{\textcolor{red}{TODO}}}		% big, red, apparent TODO
+
+% SEQUENZENKALKÜL
+\usepackage{bussproofs}
+\newcommand{\yields}{\ensuremath{\mathrel{\Rightarrow}}}
+
+% Aufzählungen anpassen (alternativ: \arabic, \alph)
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+% BITTE NICHT ÄNDERN: interne Kommandos für die Informationen (Blattnummer, Gruppe, ...)
+\newcounter{sheet}
+\newcommand{\printsheet}{\arabic{sheet}}
+
+\newcommand{\printgroup}{?}
+\newcommand{\group}[1]{%
+\renewcommand{\printgroup}{#1}%
+}
+
+\newcommand{\printmembers}{}
+\newcommand{\printmember}[3]{{#2} {#3} & {#1} \\}
+
+% Für Vektoren
+\newcommand{\myvec}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\def\spvec#1{\left(\vcenter{\halign{\hfil$##$\hfil\cr \spvecA#1;;}}\right)}
+\def\spvecA#1;{\if;#1;\else #1\cr \expandafter \spvecA \fi}
+
+\newtheorem{proposition}{Proposition}[sheet]
+
+\newcommand{\pdfmembers}{}
+\newcommand{\pdfmember}[3]{{#1} {#3}, {#2}; }
+
+\newcommand{\member}[3]{%
+\expandafter\renewcommand\expandafter\printmembers\expandafter{\printmembers\printmember{#1}{#2}{#3}}%
+\expandafter\renewcommand\expandafter\pdfmembers\expandafter{\pdfmembers\pdfmember{#1}{#2}{#3}}%
+}
+
+\AtBeginDocument{\hypersetup{
+    pdftitle = {Übungsblatt \printsheet},
+    pdfauthor = {Abgabegruppe \printgroup: \pdfmembers},
+    pdfsubject = {Online Algorithms}
+}}
+
+% <-------- HIER alle Informationen eintragen ========================
+\setcounter{sheet}{1} % Nummer des Blatts
+
+% alle Gruppenmitglieder in der Form \member{Matrikelnummer}{Vorname}{Nachname}
+\member{5481114}{Danje}{Petersen}
+
+\begin{document}
+
+% Kopfzeile
+{\raggedright
+\begin{tabular}{l}
+    Online Algorithms \\
+    SS 2024 \\
+\end{tabular}}
+\hfill
+{\Large Sheet 0\printsheet}
+\hfill
+\begin{tabular}{l l}
+\today{} \\
+\printmembers 
+\end{tabular}
+\hrule
+
+
+% <-------- HIER beginnt die Lösung ========================
+
+\section*{Exercise \printsheet.1}
+We construct a directed graph $G=(V,E,c)$ that models the problem. For each travel request there is one vertex $v_i$ and there is one starting and final vertex $s,t$. Therefore:
+\[V=\{s, v_1, \dots v_n, t\}\]
+For each travel request $(t_i,c_i)$ there exist two edges starting in its vertex $v_i$. One models the decision not to buy a BahnCard and connects $v_i$ with $v_{i+1}$ and has costs $c_i$. Additionally, there is an edge from that request to the request that has the lowest time $t_j$ with $t_j > t_i+T$. This models the decision to buy a BahnCard at $t_i$. The edge has the costs of each of the travel requests that will be discounted multiplied by $\beta$.
+\begin{align*}E= & \{(v_i,v_{i+1}) \mid i \in \{1,\dots ,n\} \text{ with } c(v_i,v_{i+1}) = c_i \} \\
+&\cup \{(v_i,v_j) \mid i \in \{1,\dots ,n\} \text{ where } t_j \text{ is next request after } t_i+T \\
+& \text{ with } c(v_i,v_j) = \sum_{k:t_k \in [t_i,t_i+T)} \beta \cdot c_k \}\end{align*}
+
+On this directed graph we do a search for the shortest $s-t-$path which is possible in $O(n)$ since there are at most $2n$ unique edges in the graph. Calculating the edge costs is possible in $O(n)$ when going through the travel requests chronologically. \\
+The shortest path now corresponds to the optimal decisions and its costs to the costs of the bought tickets.
+
+
+\section*{Exercise \printsheet.2}
+\subsection*{(a)}
+\begin{proposition} For each phase $[\tau_i,\tau_{i+1}$ with $1 \leq i\leq k$ the interval $[\tau_i,\tau_i+T$ is expensive. \end{proposition}
+\begin{proof}
+At $\tau_i$ OPT buys a BahnCard. Assume, $[\tau_i,\tau_i+T)$ is not expensive. Then it is cheaper not to buy a BahnCard than to buy one. Therefore OPT would not buy a BahnCard at $\tau_i$. This contradicts the fact that OPT buys a BahnCard at $\tau_i$.
+\end{proof}
+
+\begin{proposition} Any subinterval of $[\tau_i+T,\tau_{i+1})$ of length smaller than $T$ is cheap. \end{proposition}
+\begin{proof}
+Assume $[\tau_i+T,\tau_{i+1})$ is expensive. Then it would be optimal to buy a BahnCard at the time of the next travel request $t_j$ after $\tau_i+T$. Since OPT makes the optimal choice, it would buy a BahnCard at $t_j$. Since $t_j \notin \{\tau_1, \dots \tau_k\}$, OPTdoes not buy a BahnCard. Therefore $[\tau_i+T,\tau_{i+1})$ can't be expensive.  
+\end{proof}
+
+\subsection*{(b)}
+\begin{proposition} For $I=[0,\tau_1)$, it holds that $c_{SUM} \leq c_{OPT}$. \end{proposition}
+\begin{proof}
+Since OPT buys its first BahnCard at $\tau_1$, $c_{OPT} = \sum_{i: t_i \in I}c_i$ and $I$ can't be expensive, thus $\sum_{i: t_i \in I}c_i < c^*$. SUM buys a BahnCard as soon as for $j$ the sum $\sum_{k:t_k \in [t_j-T,t_j)} c_k \geq c^*$. Since this can't be true at any time in $I$, SUM does not buy a BahnCard in $I$. Therefore
+\[c_{SUM} = \sum_{i: t_i \in I}c_i = c_{OPT} \Rightarrow c_{SUM} \leq c_{OPT} \text{ for } I = [0,\tau_1).\]
+\end{proof}
+
+
+\subsection*{(c)}
+If \textit{SUM} doesn't buy a BahnCard, then $c_{SUM} = \sum_{j:t_j \in I}c_j$.
+For \textit{OPT} the costs would be 
+\[c_{OPT} = C + \sum_{j:t_j \in [\tau_i,\tau_i+T)} \beta c_j + \sum_{j:j_j \in [\tau_i+T,\tau_{i+1})}c_j\]
+The worst case for \textit{SUM} would be that \textit{OPT} only pays discounted prices and therefore
+\[c_{OPT} = C + \sum_{j:t_j \in [\tau_i,\tau_i+T)} \beta c_j = C + \beta c_{SUM}\]
+\begin{align*}
+c_{SUM} &\leq c_{SUM} + C + (1-\beta) C \\
+&= 2C + \beta \cdot c_{SUM} \\
+&= C + \beta \cdot c_{SUM} + \beta C + (1-\beta )C \\
+&\leq C + \beta \cdot c_{SUM} + (1-\beta) \beta \cdot c_{SUM} + (1-\beta) C \\
+&= c_{OPT} + (1-\beta) c_{OPT} \\
+&= (2-\beta) c_{OPT}
+\end{align*}
+
+\subsection*{(d)}
+We partition the interval $I$ into three intervals $I_1,I_2,I_3$. $I_1$ is the timeframe in which \textit{SUM} still owns a BahnCard that was bought in the time before $\tau_i$. $I_2$ is the interval in which \textit{SUM} doesn't own a BahnCard and $I_3$ the interval starting when \textit{SUM} buys a new BahnCard.
+For each interval we denote the costs of the travel requests in it as:
+\[C_j = \sum_{k: t_k \in I_j} c_k\] 
+Since \textit{OPT} buys a BahnCard at $\tau_i$ that expires at $\tau_i + T$, the interval $[\tau_i,\tau_i+T)$ must be expensive. Since \textit{SUM} buys a BahnCard whenever the current request makes the previous interval expensive, it buys a BahnCard at $t'$ which is the time of the last travel request $(t',c')$ before $\tau_i+T$. Therefore $I_3 = [t',\tau_i+1)$\\
+We can assume w.l.o.g. that there are no non-discounted requests for \textit{SUM} in $I_3$, since both \textit{SUM} and \textit{OPT} would have to pay the full price. 
+The worst case for \textit{SUM} would be, if $C_1$ and $C_3$ would be very low and $C_2$ very high, since $I_2$ is the only interval in which only \textit{OPT} gets the discount.
+
+\begin{align*}
+\frac{c_{\textit{SUM}}}{c_{\textit{OPT}}} &= \frac{C + \beta C_1 + C_2 + \beta C_3}{C + \beta C_1 + \beta C_2 + \beta c' + C_3 - c'} \\
+&= \frac{C + \beta C_1 + C_2 + \beta C_3}{\frac{C}{1-\beta} + C_3 - c'} \\
+&\leq  \frac{C + C_1 + C_2 + C_3}{\frac{C}{1-\beta} + C_3 - c'} \quad \mid \text{in the worst case, \textit{SUM} has to pay almost all the full prices}\\
+&= \frac{C+C_2}{\frac{C}{1-\beta}} \quad \mid \text{Let }C_1, C_3 \text{ be very small}\\
+&= \frac{(1-\beta)(C+C_2)}{C} \\
+&= \frac{(1-\beta)C}{C} + \frac{(1-\beta)C_2}{C} \\
+&\leq  1-\beta + 1 \quad \mid C \text{ must be smaller than the saved costs} \\
+&= (2-\beta)
+\end{align*}
+
+
+\section*{Exercise \printsheet.3}
+
+
+
+
+
+
+
+
+\end{document}
