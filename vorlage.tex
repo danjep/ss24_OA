@@ -1,7 +1,7 @@
 \documentclass[a4paper,12pt]{scrartcl}
 
 % Layout
-\usepackage[a4paper, left=2.5cm, right=2cm, top=1cm, bottom=3cm]{geometry} % kleinere Ränder
+\usepackage[a4paper, left=2.5cm, right=2cm, top=2cm, bottom=3.2cm]{geometry} % kleinere Ränder
 \usepackage{parskip}
 
 % Umlaute in der Datei erlauben, auf Deutsch umstellen
@@ -42,26 +42,6 @@
 
 \usepackage{tcolorbox}
 
-\newenvironment{LP}[1]{%
-\begin{minipage}{0.48\textwidth}
-\begin{tcolorbox}[colback=orange!20!white, colframe=orange!80!black, title={\sffamily \textbf{#1}}]
-}{
-\end{tcolorbox}
-\end{minipage}}
-
-\newenvironment{alg}[1]{%
-\begin{tcolorbox}[colback=red!15!white, colframe=red!85!black, title={\sffamily \textbf{#1}}]
-}{
-\end{tcolorbox}}
-
-\newenvironment{info}[1]{%
-\begin{tcolorbox}[colback=darkgray!15!white, colframe=darkgray!75!black, title={\sffamily \textbf{#1}}]
-}{
-\end{tcolorbox}}
-
-\newcommand{\ein}{\textbf{Eingabe: }}
-\newcommand{\reg}{\textbf{Bedingungen:}}
-\newcommand{\aus}{\textbf{Ziel: }}
 
 % Reelle, Natürliche, Ganze, Rationale Zahlen
 \newcommand{\R}{\ensuremath{\mathbb{R}}}

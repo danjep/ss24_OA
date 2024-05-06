@@ -2,7 +2,7 @@
 \usepackage[singlespacing]{setspace}
 
 % Layout
-\usepackage[a4paper, left=2.5cm, right=2cm, top=1cm, bottom=3cm]{geometry} % kleinere Ränder
+\usepackage[a4paper, left=2.5cm, right=2cm, top=2cm, bottom=3.2cm]{geometry} % kleinere Ränder
 \usepackage{parskip}
 
 % Umlaute in der Datei erlauben, auf Deutsch umstellen
@@ -171,7 +171,7 @@ The shortest path now corresponds to the optimal decisions and its costs to the 
 
 \section*{Exercise \printsheet.2}
 \subsection*{(a)}
-\begin{proposition} For each phase $[\tau_i,\tau_{i+1}$ with $1 \leq i\leq k$ the interval $[\tau_i,\tau_i+T$ is expensive. \end{proposition}
+\begin{proposition} For each phase $[\tau_i,\tau_{i+1})$ with $1 \leq i\leq k$ the interval $[\tau_i,\tau_i+T)$ is expensive. \end{proposition}
 \begin{proof}
 At $\tau_i$ OPT buys a BahnCard. Assume, $[\tau_i,\tau_i+T)$ is not expensive. Then it is cheaper not to buy a BahnCard than to buy one. Therefore OPT would not buy a BahnCard at $\tau_i$. This contradicts the fact that OPT buys a BahnCard at $\tau_i$.
 \end{proof}
@@ -180,6 +180,8 @@ At $\tau_i$ OPT buys a BahnCard. Assume, $[\tau_i,\tau_i+T)$ is not expensive. T
 \begin{proof}
 Assume $[\tau_i+T,\tau_{i+1})$ is expensive. Then it would be optimal to buy a BahnCard at the time of the next travel request $t_j$ after $\tau_i+T$. Since OPT makes the optimal choice, it would buy a BahnCard at $t_j$. Since $t_j \notin \{\tau_1, \dots \tau_k\}$, OPTdoes not buy a BahnCard. Therefore $[\tau_i+T,\tau_{i+1})$ can't be expensive.  
 \end{proof}
+
+\pagebreak
 
 \subsection*{(b)}
 \begin{proposition} For $I=[0,\tau_1)$, it holds that $c_{SUM} \leq c_{OPT}$. \end{proposition}
@@ -195,14 +197,8 @@ For \textit{OPT} the costs would be
 \[c_{OPT} = C + \sum_{j:t_j \in [\tau_i,\tau_i+T)} \beta c_j + \sum_{j:j_j \in [\tau_i+T,\tau_{i+1})}c_j\]
 The worst case for \textit{SUM} would be that \textit{OPT} only pays discounted prices and therefore
 \[c_{OPT} = C + \sum_{j:t_j \in [\tau_i,\tau_i+T)} \beta c_j = C + \beta c_{SUM}\]
-\begin{align*}
-c_{SUM} &\leq c_{SUM} + C + (1-\beta) C \\
-&= 2C + \beta \cdot c_{SUM} \\
-&= C + \beta \cdot c_{SUM} + \beta C + (1-\beta )C \\
-&\leq C + \beta \cdot c_{SUM} + (1-\beta) \beta \cdot c_{SUM} + (1-\beta) C \\
-&= c_{OPT} + (1-\beta) c_{OPT} \\
-&= (2-\beta) c_{OPT}
-\end{align*}
+This scenario should not be possible, since whenever \textit{OPT} buys a BahnCard, there needs to be an expensive interval in $[\tau_i,\tau_{i+1})$ at which's end, \textit{SUM} would buy a BahnCard.
+
 
 \subsection*{(d)}
 We partition the interval $I$ into three intervals $I_1,I_2,I_3$. $I_1$ is the timeframe in which \textit{SUM} still owns a BahnCard that was bought in the time before $\tau_i$. $I_2$ is the interval in which \textit{SUM} doesn't own a BahnCard and $I_3$ the interval starting when \textit{SUM} buys a new BahnCard.
@@ -226,7 +222,7 @@ The worst case for \textit{SUM} would be, if $C_1$ and $C_3$ would be very low a
 
 \section*{Exercise \printsheet.3}
 \subsection*{(a)}
-\begin{proposition} A is $c$-competitive, i.e. $\sum_{i=1}^n c_A(i) \leq c \cdot \sum_{i=1}^n c_{OPT}(i)$. \end{proposition}
+\begin{proposition} A is $c$-competitive, i.e. $\sum_{i=1}^n c_A(i) \leq c \cdot \sum_{i=1}^n c_{OPT}(i)$, if for every request sequence $r$, there is a potential function $\Phi_r$ such that $c_A(i) + \Phi_r(i) - \Phi_r(i-1) \leq c \cdot c_{OPT}(i)$. \end{proposition}
 \begin{proof}
 \begin{align*}
 \sum_{i=1}^n c_A(i) & \leq \sum_{i=1}^n c_A(i) + \sum_{i=1}^n \Phi_r(i) - \Phi_r(i-1) \mid \text{ since } \Phi_r \text{ can't be negative} \\
@@ -236,10 +232,43 @@ The worst case for \textit{SUM} would be, if $C_1$ and $C_3$ would be very low a
 \end{align*}
 \end{proof}
 
+\pagebreak
 
 \subsection*{(b)}
+The algorithm doubles the buffer space each time the limit is reached. \\
+For each element $s_i$ of $s = s_1,\dots s_n$ the algorithm determines if the buffer is full. If it is full, a new buffer is allocated with double the size of the old buffer. If it is not full, $s_i$ is written into the buffer. \\
 
+In the worst case, the last element of $s$ is added when the buffer is full and needs to be reallocated. In this case the size of the buffer is $2(n-1) \leq 2 |s|$.
 
+To prove that the algorithm is $3$-competitive, we use a potential function $\Phi$.
+
+\[\text{For every }s_i \in s: \Phi(i) = \begin{cases} \Phi(i-1)+2 & \text{if buffer is not full} \\ 0 & \text{otherwise} \end{cases} \quad \text{ with } \quad \Phi(0)=0\]
+
+Since no element of $\Phi$ is negative, this is a valid potential function.
+
+\begin{proposition} $\forall s_i \in s: c_A(i) + \Phi(i) - \Phi(i-1) \leq 3 \cdot c_{OPT}$ \end{proposition}
+\begin{proof}
+For every element in $s$, $c_{OPT}$ has costs of $1$ to add it to the buffer.
+For any $i$ for which the buffer doesn't need to be reallocated the algorithm needs one step, i.e. $c_A(i) = 1$ and therefore the following holds:
+\begin{align*}
+c_A(i) + \Phi(i) - \Phi(i-1) &= 1 + \Phi(i-1) - \Phi(i-1) + 2 \\
+&= 3 \\
+&\leq 3 \cdot 1 = 3 \cdot c_{OPT}(i)
+\end{align*}
+
+For any $i$ where the buffer needs to be reallocated the cost is $c_A(i) = i$ since $(i-1)$ elements are reallocated and then the new element is added. Since the potential function is \glqq reset\grqq{} every $2^k+1$ elements when the buffer needs to be reallocated, when it happens again, $\Phi(i-1)$ is equal to $2\cdot \left(\frac{(i-1)}{2}-1\right)$. For example, when the $9th$ element is added, the buffer needs to be reallocated. $\Phi$ has last been reset to $0$ at element $5$. Therefore, for each element between $5$ and $9$ the potential function has increased by $2$ which leads to 
+\[\Phi(9-1) = \Phi(8) = 2 \cdot \frac{8}{2} -1 = 2 \cdot 3 = 6.\] 
+
+Now, for each element at which the buffer needs to be reallocated it holds that:
+\begin{align*}
+c_A(i) + \Phi(i) - \Phi(i-1) &= i + 0 - 2 \cdot \left(\frac{(i-1)}{2} - 1\right) \\
+&= i - (i-1) + 2 \\
+&= 3 \\
+&\leq 3 \cdot 1 = 3 \cdot c_{OPT}(i)
+\end{align*}
+\end{proof}
+
+Combining Proposition 1.4 and Proposition 1.5, it is clear that the algorithm is $3$-competitive.
 
 
 
