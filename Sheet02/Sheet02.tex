@@ -139,7 +139,9 @@
 % <-------- HIER beginnt die Lösung ========================
 
 \section*{Exercise \printsheet.1}
-
+The worst case for greedy would be that one server always moves between it's original position and a location that is only $\epsilon$ closer to it than to the other server. That server $s_1$ would move $d(s_1,\sigma_i)$ for every request, while OPT could just move the other server to that position and would never have to move again. Therefore OPT would have costs of $d(s_1,\sigma_i)+\epsilon$ once.
+\[\frac{c_{GREEDY}}{c_{OPT}} = \frac{n\mal d(s_1,\sigma_i)}{d(s_1,\sigma_i)+\epsilon} = n\]
+Thus the competitive ratio of GREEDY is unbounded. 
 
 
 \section*{Exercise \printsheet.2}
@@ -147,7 +149,8 @@
 \begin{proposition}
 OPT changes the minimum cost matching $M_{min}$ by value lower or equal to $k \mal c_{OPT}(i)$, i.e. for every $\sigma_i$: $\Delta M_{min} \leq k \mal c_{OPT}(i)$.
 \end{proposition}
-OPT has cost $c_{OPT}(i)$ for $\sigma_i$. The matching consists of the minimal sum of distances of every servers position in CD to one in OPT. If OPT changes the positions of its' servers by $c_{OPT}(i)$, these distances can only grow by $c_{OPT}(i)$. Since $k \geq 1$, it holds that for every $\sigma_i$: $\Delta M_{min} = c_{OPT}(i) \leq k \mal c_{OPT}(i)$.
+\begin{proof}
+OPT has cost $c_{OPT}(i)$ for $\sigma_i$. The matching consists of the minimal sum of distances of every servers position in CD to one in OPT. If OPT changes the positions of its' servers by $c_{OPT}(i)$, these distances can only grow by $c_{OPT}(i)$. Since $k \geq 1$, it holds that for every $\sigma_i$: $\Delta M_{min} = c_{OPT}(i) \leq k \mal c_{OPT}(i)$. \end{proof}
 
 \subsection*{(b)}
 \begin{proposition}
