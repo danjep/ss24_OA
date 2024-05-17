@@ -7,7 +7,7 @@
 % Umlaute in der Datei erlauben, auf Deutsch umstellen
 \usepackage{fontspec}
 \usepackage{lmodern}
-\usepackage[english, ngerman]{babel}
+\usepackage[english]{babel}
 
 % Mathesymbole und Ähnliches
 \usepackage{amsmath}
@@ -141,8 +141,37 @@
 
 
 \section*{Exercise \printsheet.2}
+\subsection*{(a)}
 
+\subsection*{(b)}
+\begin{proposition}
+When DC only moves one server, the following holds:
+\[\Phi(i) \leq \Phi(i-1) + k c_{OPT}(i) - c_{DC}(i)\]
+\end{proposition}
+\begin{proof}
+Let $c_{OPT}(i) = \beta \cdot c_{DC}(i)$ with $\beta \geq 0$.
+When DC only moves one server, several effects can be witnessed: \\
+\begin{itemize}
+\item[(1)]$\sum_{DC}$ increases by $c_{CD}$, if $k \geq 2$. \\
+\item[(2)] In the worst case, $M_{min}$ increases by $c_{OPT}(i)-c_{DC}(i) = (\beta-1)c_{DC}(i)$. \\
+\end{itemize}
+Statement (1) is true, since the server, DC moves is on the edge of the convex hull and only moves away from the other servers. If there is only one server, $\sum_{DC}$ is always $0$. \\
+Statement (2) is true because if $c_{OPT}(i) = 0$, $M_{min}$ decreases by $c_{DC}(i)$. In the worst case, OPT might move one server far away from all servers of DC. This distance cannot be more than $c_{OPT}(i)$. Hence, $M_{min}$ increases by $(\beta-1)\cdot c_{CD}(i)$ in the worst case. \\
+For $k\geq 2$ we can deduct the following: \\
+\begin{align*}
+& \Phi(i) \leq  \Phi(i-1) + k \cdot c_{OPT}(i) - c_{DC}(i) \\
+\Leftrightarrow & k \cdot (M_{min} + (\beta-1) c_{DC}(i)) + \sum_{DC} + c_{DC}(i) \leq  \cdot M_{min} + \sum_{DC} + k \cdot \beta c_{DC}(i) - c_{DC}(i) \\
+\Leftrightarrow &(\beta-1)kc_{DC}(i) + c_{DC}(i) \leq \beta k c_{DC}(i) - c_{DC}(i) \\
+\Leftrightarrow &(\beta-1)kc_{DC}(i) + 2c_{DC}(i) \leq \beta k c_{DC}(i)\quad \mid \frac{1}{c_{DC}(i)} \\
+\Leftrightarrow &(\beta-1)k + 2  \leq \beta k  \\
+\Leftrightarrow &(\beta-1) + \frac{2}{k} \leq \beta
+\end{align*}
+For $k\geq 2$ this results in $\beta \leq \beta$, which is obviously true. \\
+For $k=1$, we can subtract $c_{DC}(i)$ on the left side which results in 
+\[(\beta-1) + \frac{1}{k} \leq \beta \Leftrightarrow \beta \leq \beta\]
+\end{proof}
 
+\subsection*{(c)}
 
 \section*{Exercise \printsheet.3}
 
