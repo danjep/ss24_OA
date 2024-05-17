@@ -63,6 +63,8 @@
 \newcommand{\impl}{\ensuremath{\rightarrow}} % logische Implikation
 \newcommand{\Lor}{\ensuremath{\bigvee}}
 \newcommand{\Land}{\ensuremath{\bigwedge}}
+\newcommand{\eq}{\ensuremath{\Leftrightarrow}}
+\newcommand{\mal}{\ensuremath{\cdot}}
 
 % Meistens ist \varphi schöner als \phi, genauso bei \theta
 \renewcommand{\phi}{\varphi}
@@ -142,6 +144,10 @@
 
 \section*{Exercise \printsheet.2}
 \subsection*{(a)}
+\begin{proposition}
+OPT changes the minimum cost matching $M_{min}$ by value lower or equal to $k \mal c_{OPT}(i)$, i.e. for every $\sigma_i$: $\Delta M_{min} \leq k \mal c_{OPT}(i)$.
+\end{proposition}
+OPT has cost $c_{OPT}(i)$ for $\sigma_i$. The matching consists of the minimal sum of distances of every servers position in CD to one in OPT. If OPT changes the positions of its' servers by $c_{OPT}(i)$, these distances can only grow by $c_{OPT}(i)$. Since $k \geq 1$, it holds that for every $\sigma_i$: $\Delta M_{min} = c_{OPT}(i) \leq k \mal c_{OPT}(i)$.
 
 \subsection*{(b)}
 \begin{proposition}
@@ -172,6 +178,28 @@ For $k=1$, we can subtract $c_{DC}(i)$ on the left side which results in
 \end{proof}
 
 \subsection*{(c)}
+If DC moves two servers $s_k,s_{k'}$ towards each other, assuming $s_k$ is the server that moves all the way to the request $\sigma_i$, then $c_{DC}(i) = 2d(s_k,\sigma_i)$.
+Two effects can be observed:
+\begin{itemize}
+\item[(1)] $\sum_{DC}$ decreases by $c_{DC}(i)$.
+\item[(2)] $M_{min}$ increases by not more than $c_{OPT}(i)$.
+\end{itemize}
+Statement (1) is true since when there are $a$ servers left of $s_k,s_{k'}$ and $b$ elements right of the two servers, the one that moves right distances itself from $a$ servers and gets closer to $b+1$ servers. The other server gets closer to $a+1$ servers and more distant to $b$ servers. Therefore $\sum_{DC}$ changes by $d(s_k,\sigma_i) \cdot (a - (b+1) + b - (a+1)) = d(s_k,\sigma_i) \cdot (-2)$. \\
+Statement (2) is true, since in the worst case OPT might move one server away from those of DC. Since one server $s_l$ must be moved to $\sigma_i$, the cost $c_{OPT}(i)$ is split into $d(s_l,\sigma_i)$ and the rest. Then, the value of the Matching must decrease by $d(s_k,\sigma_i) - d(s_l,\sigma_i)$ and can increase by $c_{opt}(i) - d(s_l,\sigma_i) + d(s_k,\sigma_i)$. This adds up to $c_{OPT}(i)$. \\
+These two Statements help prove the following:
+\begin{proposition}
+When DC moves two servers, the following holds:
+\[\Phi(i) \leq \Phi(i-1) + k \cdot c_{OPT}(i) - c_{DC}(i)\]
+\end{proposition}
+\begin{proof}
+We use Statements (1) and (2).
+\begin{align*}
+& \Phi(i) \leq \Phi(i-1) + k \cdot c_{OPT}(i) - c_{DC}(i) \\
+\Leftrightarrow & k(M_{min} + c_{OPT}) + \sum_{DC} - 2\cdot d(s_k,\sigma_i) \leq k \cdot M_{min} + \sum_{DC} + k \cdot c_{OPT}(i) - c_{DC}(i) \\
+\Leftrightarrow & -2 \mal d(s_k,\sigma_i) \leq - c_{DC}(i) \\
+\eq & -c_{DC}(i) \leq -c_{DC}(i)
+\end{align*}
+\end{proof}
 
 \section*{Exercise \printsheet.3}
 
