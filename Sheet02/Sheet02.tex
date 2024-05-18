@@ -97,6 +97,7 @@
 \def\spvecA#1;{\if;#1;\else #1\cr \expandafter \spvecA \fi}
 
 \newtheorem{proposition}{Proposition}[sheet]
+\newtheorem{lemma}{Lemma}[sheet]
 
 \newcommand{\pdfmembers}{}
 \newcommand{\pdfmember}[3]{{#1} {#3}, {#2}; }
@@ -139,8 +140,8 @@
 % <-------- HIER beginnt die Lösung ========================
 
 \section*{Exercise \printsheet.1}
-The worst case for greedy would be that one server always moves between it's original position and a location that is only $\epsilon$ closer to it than to the other server. That server $s_1$ would move $d(s_1,\sigma_i)$ for every request, while OPT could just move the other server to that position and would never have to move again. Therefore OPT would have costs of $d(s_1,\sigma_i)+\epsilon$ once.
-\[\frac{c_{GREEDY}}{c_{OPT}} = \frac{n\mal d(s_1,\sigma_i)}{d(s_1,\sigma_i)+\epsilon} = n\]
+The worst case for greedy would be that one server always moves between it's original position and a location that is only $\varepsilon$ closer to it than to the other server. That server $s_1$ would move $d(s_1,\sigma_i)$ for every request, while OPT could just move the other server to that position and would never have to move again. Therefore OPT would have costs of $d(s_1,\sigma_i)+\varepsilon$ once.
+\[\frac{c_{GREEDY}}{c_{OPT}} = \frac{n\mal d(s_1,\sigma_i)}{d(s_1,\sigma_i)+\varepsilon} = n\]
 Thus the competitive ratio of GREEDY is unbounded. 
 
 
@@ -151,6 +152,8 @@ OPT changes the minimum cost matching $M_{min}$ by value lower or equal to $k \m
 \end{proposition}
 \begin{proof}
 OPT has cost $c_{OPT}(i)$ for $\sigma_i$. The matching consists of the minimal sum of distances of every servers position in CD to one in OPT. If OPT changes the positions of its' servers by $c_{OPT}(i)$, these distances can only grow by $c_{OPT}(i)$. Since $k \geq 1$, it holds that for every $\sigma_i$: $\Delta M_{min} = c_{OPT}(i) \leq k \mal c_{OPT}(i)$. \end{proof}
+
+\pagebreak
 
 \subsection*{(b)}
 \begin{proposition}
@@ -165,7 +168,7 @@ When DC only moves one server, several effects can be witnessed: \\
 \item[(2)] In the worst case, $M_{min}$ increases by $c_{OPT}(i)-c_{DC}(i) = (\beta-1)c_{DC}(i)$. \\
 \end{itemize}
 Statement (1) is true, since the server, DC moves is on the edge of the convex hull and only moves away from the other servers. If there is only one server, $\sum_{DC}$ is always $0$. \\
-Statement (2) is true because if $c_{OPT}(i) = 0$, $M_{min}$ decreases by $c_{DC}(i)$. In the worst case, OPT might move one server far away from all servers of DC. This distance cannot be more than $c_{OPT}(i)$. Hence, $M_{min}$ increases by $(\beta-1)\cdot c_{CD}(i)$ in the worst case. \\
+Statement (2) is true because CD moves the server to the same position where OPT has moved a server, making their distance $0$. If $c_{OPT}(i) = 0$, $M_{min}$ decreases by $c_{DC}(i)$. In the worst case, OPT might move one server far away from all servers of DC. This distance cannot be more than $c_{OPT}(i)$ (see (a)). In that case, OPT already had a server at $\sigma_i$, hence $M_{min}$ increases by $(\beta-1)\cdot c_{CD}(i)$ in the worst case. \\
 For $k\geq 2$ we can deduct the following: \\
 \begin{align*}
 & \Phi(i) \leq  \Phi(i-1) + k \cdot c_{OPT}(i) - c_{DC}(i) \\
@@ -179,6 +182,7 @@ For $k\geq 2$ this results in $\beta \leq \beta$, which is obviously true. \\
 For $k=1$, we can subtract $c_{DC}(i)$ on the left side which results in 
 \[(\beta-1) + \frac{1}{k} \leq \beta \Leftrightarrow \beta \leq \beta\]
 \end{proof}
+\pagebreak
 
 \subsection*{(c)}
 If DC moves two servers $s_k,s_{k'}$ towards each other, assuming $s_k$ is the server that moves all the way to the request $\sigma_i$, then $c_{DC}(i) = 2d(s_k,\sigma_i)$.
@@ -201,14 +205,27 @@ We use Statements (1) and (2).
 \Leftrightarrow & k(M_{min} + c_{OPT}) + \sum_{DC} - 2\cdot d(s_k,\sigma_i) \leq k \cdot M_{min} + \sum_{DC} + k \cdot c_{OPT}(i) - c_{DC}(i) \\
 \Leftrightarrow & -2 \mal d(s_k,\sigma_i) \leq - c_{DC}(i) \\
 \eq & -c_{DC}(i) \leq -c_{DC}(i)
-\end{align*}
-\end{proof}
+\end{align*} \end{proof}
+\pagebreak
 
 \section*{Exercise \printsheet.3}
+\begin{proposition}
+Let $G$ be a $N$-node graph and $T$ the minimal spanning tree of $G$. DC-TREE is $k\mal (N-1)$-competitive for solving $k$-server on $G$ when applied to $T$.
+\end{proposition}
+Since we know that DC-TREE is $k$-competitive on trees when compared to OPT-T, the optimal offline algorithm for the $k$-server problem on trees, we need to show that OPT-T is $(N-1)$-competitive compared to the optimum on the graph $G$ when OPT-T is applied on $T$.
+\begin{lemma}
+Let OPT-G be the optimal offline algorithm for the $k$-server problem on a $N$-node graph $G$ and OPT-T the optimal offline algorithm for the $k$-server problem on trees. When OPT-T is applied on the minimum spanning tree $T$ of $G$, then
+\[c_{OPT-T} \leq (N-1)\mal c_{OPT-G}\] 
+\end{lemma}
+\begin{proof}
+For any server that OPT-T moves from $a$ to $b$, there is a path $P(a,b)$ and there is a path $P'(a,b)$ that OPT-G could take. Since $T$ is a minimum spanning tree of $G$, any edge $e$ that is used in $P(a,b)$ must be shorter than $P'(a,b)$, i.e. $|e| \leq |P'(a,b)|$. Since $P(a,b)$ can only take at most $(N-1)$ edges, it holds that 
+\[P(a,b) \leq (N-1)\mal P'(a,b)\]
+and therefore $c_{OPT-T} \leq (N-1)\mal c_{OPT-G}$. \end{proof}
 
+This also shows that:
+\[c_{DC-TREE} \leq k\mal c_{OPT-T} \leq k \mal (N-1) c_{OPT-G}\]
+and therefore DC-TREE is $k\mal (N-1)$-competitive.
 
-
-\section*{Exercise \printsheet.4}
 
 
 
