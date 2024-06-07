@@ -64,9 +64,12 @@
 \newcommand{\Lor}{\ensuremath{\bigvee}}
 \newcommand{\Land}{\ensuremath{\bigwedge}}
 
+\newcommand{\mal}{\cdot}
+
 % Meistens ist \varphi schöner als \phi, genauso bei \theta
 \renewcommand{\phi}{\varphi}
 \renewcommand{\theta}{\vartheta}
+\renewcommand{\epsilon}{\varepsilon}
 
 \newcommand*{\todo}{\textbf{\textcolor{red}{TODO}}}		% big, red, apparent TODO
 
@@ -136,19 +139,33 @@
 
 % <-------- HIER beginnt die Lösung ========================
 
-\section*{Exercise \printsheet.1}
+\section*{Exercise \printsheet.1: Online Bin Packing - Next Fit}
+For the first $n+1$ bins we first give an item of size $\alpha$ and then give items such that there is only space $\alpha-\varepsilon$ left in the bin and Next Fit needs to continue with the next bin. After $n$ bins we give $n+1$ requests for items of size $\alpha-\varepsilon$. Next Fit will fill one bin to exactly $1$ before it fills each of the following bins with $\left\lfloor \frac{1}{\alpha-\epsilon} \right\rfloor$ items, therefore using  $\frac{n}{\left\lfloor\frac{1}{\alpha-\epsilon}\right\rfloor}$ bins. \\
+Overall, Next Fit needs to use at least $n+n\mal (\alpha-\epsilon)$ bins, while OPT only needs $n$ which leads to: 
+\[\frac{c_{NF}}{c_{OPT}} \geq \frac{n+ n \mal (\alpha-\epsilon)}{n} = 1+ \alpha -\epsilon \] 
 
+For $\alpha \leq \frac{1}{2}$ the offset $\epsilon$ can be very small which makes $\alpha - \epsilon$ almost as big as $\alpha$ and therefore
+\[\frac{c_{NF}}{c_{OPT}} \geq 1 + \alpha \] %\frac{1}{\alpha}\]
 
+For $\alpha > \frac{1}{2}$ the offset is such that $\alpha - \epsilon = 1-\alpha$. In this case: 
+\[\frac{c_{NF}}{c_{OPT}} \geq 1+ 1-\alpha\]
 
 \section*{Exercise \printsheet.2}
+\subsection*{(a)}
+
+\subsection*{(b)}
 
 
+\section*{Exercise \printsheet.3: Online Graph Coloring}
+Let A be any deterministic online algorithm for Graph Coloring. For any $k \in \N$ we construct a forest $T_k$ that forces A to use $k$ colors.\\
+$T_1$ is just a single vertex that obviously needs to be colored in one color.
+For $T_2$ we construct the Graph $T_1$ and connect it to a new vertex, forcing A to use a new color. \\
 
-\section*{Exercise \printsheet.3}
+In the same manner we construct a forest $T_k$ for $k\in \N$ recursively. First we construct $T_i$ for all $i \in \{1,\dots, k-1\}$. Since in each $T_i$ there must be at least one more color than in $T_{i-1}$, A already used $k-1$ colors. Now we introduce a new vertex that is connected to each $T_i$ via the vertex that uses a color that is not used in $T_{i-1}$. Since that new vertex has neighbours with all the $k-1$ colors already used by A, the algorithm needs to use a new color. \\
+
+Since each $T_i$ is a forest and these are connected through a single vertex, there is only one unique path from each $T_i$ to another, making $T_k$ a forest too.
 
 
-
-\section*{Exercise \printsheet.4}
 
 
 
