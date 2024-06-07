@@ -141,8 +141,10 @@
 
 \section*{Exercise \printsheet.1: Online Bin Packing - Next Fit}
 For the first $n+1$ bins we first give an item of size $\alpha$ and then give items such that there is only space $\alpha-\varepsilon$ left in the bin and Next Fit needs to continue with the next bin. After $n$ bins we give $n+1$ requests for items of size $\alpha-\varepsilon$. Next Fit will fill one bin to exactly $1$ before it fills each of the following bins with $\left\lfloor \frac{1}{\alpha-\epsilon} \right\rfloor$ items, therefore using  $\frac{n}{\left\lfloor\frac{1}{\alpha-\epsilon}\right\rfloor}$ bins. \\
+
+Since we can make $n$ arbitrarily large, the one bin that is optimally filled can be ignored. \\
 Overall, Next Fit needs to use at least $n+n\mal (\alpha-\epsilon)$ bins, while OPT only needs $n$ which leads to: 
-\[\frac{c_{NF}}{c_{OPT}} \geq \frac{n+ n \mal (\alpha-\epsilon)}{n} = 1+ \alpha -\epsilon \] 
+\[\frac{c_{NF}}{c_{OPT}} \geq \frac{(n + n \mal (\alpha-\epsilon)}{n} = 1+ \alpha -\epsilon \] 
 
 For $\alpha \leq \frac{1}{2}$ the offset $\epsilon$ can be very small which makes $\alpha - \epsilon$ almost as big as $\alpha$ and therefore
 \[\frac{c_{NF}}{c_{OPT}} \geq 1 + \alpha \] %\frac{1}{\alpha}\]
@@ -150,8 +152,14 @@ For $\alpha \leq \frac{1}{2}$ the offset $\epsilon$ can be very small which make
 For $\alpha > \frac{1}{2}$ the offset is such that $\alpha - \epsilon = 1-\alpha$. In this case: 
 \[\frac{c_{NF}}{c_{OPT}} \geq 1+ 1-\alpha\]
 
-\section*{Exercise \printsheet.2}
+\section*{Exercise \printsheet.2: Online Bin Covering}
 \subsection*{(a)}
+We use the Next Fit algorithm, but go to the next bin when the current one is covered. \\
+In the worst case the algorithm gets $2n$ items with weight $1-\epsilon$ and after that $n+1$ items with weight $\epsilon$. The optimal algorithm would use $2n$ bins, while Next Fit would use two of the $1-\epsilon$ items to fill the first $n$ bins and then fill one bin with the last $n$ items which would be to small to cover it. Therefore Next Fit would cover $n$ bins.
+
+\[\frac{c_{OPT}}{c_{NF}} = \frac{2n}{n} = 2\]
+
+For any deterministic algorithm A that does not try to cover the bins immediately, the adversary can 
 
 \subsection*{(b)}
 
