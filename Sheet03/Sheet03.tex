@@ -155,13 +155,22 @@ For $\alpha > \frac{1}{2}$ the offset is such that $\alpha - \epsilon = 1-\alpha
 \section*{Exercise \printsheet.2: Online Bin Covering}
 \subsection*{(a)}
 We use the Next Fit algorithm, but go to the next bin when the current one is covered. \\
-In the worst case the algorithm gets $2n$ items with weight $1-\epsilon$ and after that $n+1$ items with weight $\epsilon$. The optimal algorithm would use $2n$ bins, while Next Fit would use two of the $1-\epsilon$ items to fill the first $n$ bins and then fill one bin with the last $n$ items which would be to small to cover it. Therefore Next Fit would cover $n$ bins.
+In the worst case the algorithm gets $2n$ items with weight $1-\epsilon$ and after that $n+1$ items with weight $\epsilon$. The optimal algorithm would use $2n$ bins, while Next Fit would use two of the $1-\epsilon$-items to fill the first $n$ bins and then fill one bin with the last $n$ items which would be to small to cover it. Therefore Next Fit would cover $n$ bins.
 
 \[\frac{c_{OPT}}{c_{NF}} = \frac{2n}{n} = 2\]
 
-For any deterministic algorithm A that does not try to cover the bins immediately, the adversary can 
+For any deterministic algorithm A that does not try to cover the bins immediately, the adversary can simply stop the requests whenever the algorithm wants to start filling up the opened bins. For Next Fit the competitive ratio was already determined, therefore there can't be any deterministic algorithm for Online Bin Covering that has a competitive ratio $c < 2$.
 
 \subsection*{(b)}
+For the asymptotic competitive ratio, algorithms that don't cover the bins immediately can be used since the input needs to be infinitely long.\\
+
+Let A be an algorithm that allows $k \in \N$ opened bins at a time. The worst case would be to let A cover as many bins as possible with two items of size $1-\epsilon$ while OPT can cover all bins with items $1-\epsilon$ and $\epsilon$. \\
+
+The adversary gives $(2\alpha + 1)k$ (with $\alpha \in \N_{\geq 1}$) many requests of size $1-\epsilon$ and just as many items of size $\epsilon$ to make it possible that OPT covers each bin with items adding up to $1$. We can't give the $\epsilon$-items earlier, since this would enable A to open bins with one $\epsilon$-item and cover it with an $1-\epsilon$-item. \\
+Since A will always keep $k$ bins open, it will have covered $\alpha \mal k$ bins with two items of size $1-\epsilon$ before using the $\epsilon$-items. A can't cover a bin only with $\epsilon$-items. \\
+
+This results in A covering $(\alpha + 1) k$ bins and OPT covering $(2\alpha + 1)k$ bins.
+\[c = \frac{c_{OPT}}{c_A} = \frac{(2\alpha + 1)k}{(\alpha+1)k}= \frac{2\alpha + 1}{\alpha + 1} \overset{\alpha \geq 1}{\geq} \frac{3}{2} \] 
 
 
 \section*{Exercise \printsheet.3: Online Graph Coloring}
